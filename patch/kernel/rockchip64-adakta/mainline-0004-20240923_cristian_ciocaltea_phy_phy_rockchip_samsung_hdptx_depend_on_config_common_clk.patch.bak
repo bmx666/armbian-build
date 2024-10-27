@@ -1,0 +1,46 @@
+From git@z Thu Jan  1 00:00:00 1970
+Subject: [PATCH] phy: phy-rockchip-samsung-hdptx: Depend on
+ CONFIG_COMMON_CLK
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Date: Mon, 23 Sep 2024 19:40:16 +0300
+Message-Id: <20240923-sam-hdptx-link-fix-v1-1-8d10d7456305@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Ensure CONFIG_PHY_ROCKCHIP_SAMSUNG_HDPTX depends on CONFIG_COMMON_CLK to
+fix the following link errors when compile testing some random kernel
+configurations:
+
+  m68k-linux-ld: drivers/phy/rockchip/phy-rockchip-samsung-hdptx.o: in function `rk_hdptx_phy_clk_register':
+  drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c:1031:(.text+0x470): undefined reference to `__clk_get_name'
+  m68k-linux-ld: drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c:1036:(.text+0x4ba): undefined reference to `devm_clk_hw_register'
+  m68k-linux-ld: drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c:1040:(.text+0x4d2): undefined reference to `of_clk_hw_simple_get'
+  m68k-linux-ld: drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c:1040:(.text+0x4da): undefined reference to `devm_of_clk_add_hw_provider'
+
+Fixes: c4b09c562086 ("phy: phy-rockchip-samsung-hdptx: Add clock provider support")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202409180305.53PXymZn-lkp@intel.com/
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+---
+ drivers/phy/rockchip/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
+index 490263375057..2f7a05f21dc5 100644
+--- a/drivers/phy/rockchip/Kconfig
++++ b/drivers/phy/rockchip/Kconfig
+@@ -86,6 +86,7 @@ config PHY_ROCKCHIP_PCIE
+ config PHY_ROCKCHIP_SAMSUNG_HDPTX
+ 	tristate "Rockchip Samsung HDMI/eDP Combo PHY driver"
+ 	depends on (ARCH_ROCKCHIP || COMPILE_TEST) && OF
++	depends on COMMON_CLK
+ 	depends on HAS_IOMEM
+ 	select GENERIC_PHY
+ 	select MFD_SYSCON
+
+---
+2.47.0
+
