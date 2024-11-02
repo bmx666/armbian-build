@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+/dts-v1/;
+#include "rk3588-adakta-ad-base.dtsi"
+
+/ {
+	model = "Adakta AD Board";
+	compatible = "adakta,adakta-ad-rk3588", "rockchip,rk3588";
+};
