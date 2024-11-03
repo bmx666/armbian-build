@@ -1,0 +1,13 @@
+diff --git a/drivers/pinctrl/pinctrl-aw9523.c b/drivers/pinctrl/pinctrl-aw9523.c
+index 1e704ebdf47a..aef16549ac88 100644
+--- a/drivers/pinctrl/pinctrl-aw9523.c
++++ b/drivers/pinctrl/pinctrl-aw9523.c
+@@ -1091,7 +1091,7 @@ static struct i2c_driver aw9523_driver = {
+ 		.name = "aw9523-pinctrl",
+ 		.of_match_table = of_aw9523_i2c_match,
+ 	},
+-	.probe = aw9523_probe,
++	.probe_new = aw9523_probe,
+ 	.remove = aw9523_remove,
+ 	.id_table = aw9523_i2c_id_table,
+ };

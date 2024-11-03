@@ -1,0 +1,78 @@
+From d107888cfffdb36e1697fdbe1f4f40d7c3f39e87 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 15 Mar 2024 20:01:38 +0300
+Subject: [PATCH] pinctrl: aw9523: set reset gpio as optional
+
+---
+ drivers/pinctrl/pinctrl-aw9523.c | 28 ++++++++--
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/pinctrl/pinctrl-aw9523.c b/drivers/pinctrl/pinctrl-aw9523.c
+index b5e1c467625b..a02054d6354b 100644
+--- a/drivers/pinctrl/pinctrl-aw9523.c
++++ b/drivers/pinctrl/pinctrl-aw9523.c
+@@ -717,6 +717,11 @@ static int aw9523_drive_reset_gpio(struct aw9523 *awi)
+ 	if (ret == 0)
+ 		goto done;
+ 
++	if (!awi->reset_gpio) {
++		dev_warn(awi->dev, "Cannot execute soft reset: reset gpio is not defined\n");
++		goto done;
++	}
++
+ 	dev_dbg(awi->dev, "Cannot execute soft reset: trying hard reset\n");
+ 	ret = gpiod_direction_output(awi->reset_gpio, 0);
+ 	if (ret)
+@@ -782,6 +787,8 @@ static int aw9523_init_gpiochip(struct aw9523 *awi, unsigned int npins)
+ 	gc->set = aw9523_gpio_set;
+ 	gc->set_multiple = aw9523_gpio_set_multiple;
+ 	gc->set_config = gpiochip_generic_config;
++	gc->request = gpiochip_generic_request;
++	gc->free = gpiochip_generic_free;
+ 	gc->parent = dev;
+ 	gc->owner = THIS_MODULE;
+ 	gc->can_sleep = false;
+@@ -963,10 +970,11 @@ static int aw9523_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, awi);
+ 
+ 	awi->dev = dev;
+-	awi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	awi->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(awi->reset_gpio))
+ 		return PTR_ERR(awi->reset_gpio);
+-	gpiod_set_consumer_name(awi->reset_gpio, "aw9523 reset");
++	if (awi->reset_gpio)
++		gpiod_set_consumer_name(awi->reset_gpio, "aw9523 reset");
+ 
+ 	awi->regmap = devm_regmap_init_i2c(client, &aw9523_regmap);
+ 	if (IS_ERR(awi->regmap))
+@@ -1012,15 +1020,27 @@ static int aw9523_probe(struct i2c_client *client)
+ 			goto err_disable_vregs;
+ 	}
+ 
++	ret = devm_gpiochip_add_data(dev, &awi->gpio, awi);
++	if (ret) {
++		dev_err(dev, "Cannot add gpiochip: %d\n", ret);
++		goto err_disable_vregs;
++	}
++
+ 	awi->pctl = devm_pinctrl_register(dev, pdesc, awi);
+ 	if (IS_ERR(awi->pctl)) {
+ 		ret = dev_err_probe(dev, PTR_ERR(awi->pctl), "Cannot register pinctrl");
+ 		goto err_disable_vregs;
+ 	}
+ 
+-	ret = devm_gpiochip_add_data(dev, &awi->gpio, awi);
+-	if (ret)
++	ret = gpiochip_add_pin_range(&awi->gpio,
++				     dev_name(dev),
++				     0,
++				     0,
++				     pdesc->npins);
++	if (ret) {
++		dev_err(dev, "Cannot add gpiochip pin range: %d\n", ret);
+ 		goto err_disable_vregs;
++	}
+ 
+ 	return ret;
+ 
