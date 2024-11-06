@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+#include <dt-bindings/soc/rockchip,vop2.h>
+#include "rk3568.dtsi"
+
+#include "rk3568-adakta-smarc-base-can.dtsi"
+#include "rk3568-adakta-smarc-base-display.dtsi"
+#include "rk3568-adakta-smarc-base-ethernet.dtsi"
+#include "rk3568-adakta-smarc-base-i2c.dtsi"
+#include "rk3568-adakta-smarc-base-i2s.dtsi"
+#include "rk3568-adakta-smarc-base-mmc.dtsi"
+#include "rk3568-adakta-smarc-base-pcie.dtsi"
+#include "rk3568-adakta-smarc-base-pmu.dtsi"
+#include "rk3568-adakta-smarc-base-pwm.dtsi"
+#include "rk3568-adakta-smarc-base-sound.dtsi"
+#include "rk3568-adakta-smarc-base-spi.dtsi"
+#include "rk3568-adakta-smarc-base-uart.dtsi"
+#include "rk3568-adakta-smarc-base-usb.dtsi"
+
+/ {
+	chosen {
+		stdout-path = "serial2:1500000n8";
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_sata_en>;
+
+		led_sata: sata {
+			label = "amber:sata";
+			gpios = <&gpio2 RK_PD2 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&combphy0 {
+	status = "okay";
+};
+
+&combphy1 {
+	status = "okay";
+};
+
+&combphy2 {
+	status = "okay";
+};
+
+&i2c5 {
+	pcf8523: pcf8523@68 {
+		compatible = "nxp,pcf8523";
+		reg = <0x68>;
+		interrupt-parent = <&gpio0>;
+		interrupts = <RK_PD3 IRQ_TYPE_LEVEL_LOW>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&rtcic_int_l>;
+		wakeup-source;
+	};
+};
+
+&pinctrl {
+	rtc {
+		/omit-if-no-ref/
+		rtcic_int_l: rtcic-int-l {
+			rockchip,pins = <0 RK_PD3 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+
+	sata {
+		led_sata_en: led-sata-en {
+			rockchip,pins = <2 RK_PD2 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+	};
+};
+
+&saradc {
+	vref-supply = <&vcca_1v8>;
+	status = "okay";
+};
+
+&sata2 {
+	status = "okay";
+};
+
+&spi0 {
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <20000000>;
+	};
+};
+
+/* N/A */
+&spi3 {
+	spidev0: spi@0 {
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <24000000>;
+	};
+
+	spidev1: spi@1 {
+		compatible = "spidev";
+		reg = <1>;
+		spi-max-frequency = <24000000>;
+	};
+};
+
+&tsadc {
+	rockchip,hw-tshut-mode = <1>;
+	rockchip,hw-tshut-polarity = <0>;
+	status = "okay";
+};
