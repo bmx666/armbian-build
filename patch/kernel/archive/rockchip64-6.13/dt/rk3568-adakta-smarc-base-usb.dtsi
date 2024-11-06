@@ -1,0 +1,141 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+/ {
+	vcc5v0_usb0_host: regulator-5v0-vcc-usb0-host {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpios = <&gpio3 RK_PA2 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb0_pwren_h>;
+		regulator-name = "vcc5v0_usb0_host";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
+	};
+
+	vcc5v0_usb1_host: regulator-5v0-vcc-usb1-host {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpios = <&gpio3 RK_PA0 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb1_pwren_h>;
+		regulator-name = "vcc5v0_usb1_host";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
+	};
+
+	vcc5v0_usb2_host: regulator-5v0-vcc-usb2-host {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpios = <&gpio3 RK_PC0 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb2_pwren_h>;
+		regulator-name = "vcc5v0_usb2_host";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
+	};
+
+	vcc5v0_usb3_host: regulator-5v0-vcc-usb3-host {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpios = <&gpio2 RK_PD7 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&usb3_pwren_h>;
+		regulator-name = "vcc5v0_usb3_host";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc5v0_sys>;
+	};
+};
+
+&pinctrl {
+	usb {
+		/omit-if-no-ref/
+		usb0_pwren_h: usb0-pwren-h {
+			rockchip,pins = <3 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		/omit-if-no-ref/
+		usb1_pwren_h: usb1-pwren-h {
+			rockchip,pins = <3 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		/omit-if-no-ref/
+		usb2_pwren_h: usb2-pwren-h {
+			rockchip,pins = <3 RK_PC0 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		/omit-if-no-ref/
+		usb3_pwren_h: usb3-pwren-h {
+			rockchip,pins = <2 RK_PD7 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+};
+
+&usb_host0_ehci {
+	// USB1 - USB2.0 HOST0/2
+	status = "okay";
+};
+
+&usb_host0_ohci {
+	// USB1 - USB2.0 HOST0/2
+	status = "okay";
+};
+
+&usb_host0_xhci {
+	// USB2 - USB3.0 OTG0
+	status = "okay";
+};
+
+&usb_host1_ehci {
+	// USB0 - USB2.0 HOST1/3
+	status = "okay";
+};
+
+&usb_host1_ohci {
+	// USB0 - USB2.0 HOST1/3
+	status = "okay";
+};
+
+&usb_host1_xhci {
+	// USB3 - USB3.0 OTG1/HOST1
+	status = "okay";
+};
+
+&usb2phy0 {
+	status = "okay";
+};
+
+&usb2phy0_host {
+	// USB3 - USB3.0 OTG1/HOST1
+	phy-supply = <&vcc5v0_usb3_host>;
+	status = "okay";
+};
+
+&usb2phy0_otg {
+	// USB2 - USB3.0 OTG0
+	phy-supply = <&vcc5v0_usb2_host>;
+	status = "okay";
+};
+
+&usb2phy1 {
+	status = "okay";
+};
+
+&usb2phy1_host {
+	// USB0 - USB2.0 HOST1/3
+	phy-supply = <&vcc5v0_usb0_host>;
+	status = "okay";
+};
+
+&usb2phy1_otg {
+	// USB1 - USB2.0 HOST0/2
+	phy-supply = <&vcc5v0_usb1_host>;
+	status = "okay";
+};
