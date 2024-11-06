@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+/ {
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "NAU88C22";
+		simple-audio-card,bitclock-master = <&sound0_masterdai>;
+		simple-audio-card,frame-master = <&sound0_masterdai>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,widgets =
+			"Headphones", "Headphones",
+			"Speaker", "Speaker",
+			"Microphone", "Internal Microphone",
+			"Microphone", "Headset Microphone";
+		simple-audio-card,routing =
+			"Headphones", "LHP",
+			"Headphones", "RHP",
+			"Speaker", "LSPK",
+			"Speaker", "RSPK",
+			"LMICP", "Headset Microphone",
+			"RMICP", "Internal Microphone";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0_8ch>;
+			system-clock-frequency = <12288000>;
+		};
+
+		sound0_masterdai: simple-audio-card,codec {
+			sound-dai = <&nau88c22>;
+			system-clock-frequency = <12288000>;
+		};
+	};
+};
+
+&i2c7 {
+	nau88c22: nau88c22@1a {
+		compatible = "nuvoton,nau8822";
+		reg = <0x1a>;
+
+		clocks = <&cru I2S0_8CH_MCLKOUT>;
+		clock-names = "mclk";
+		assigned-clocks = <&cru I2S0_8CH_MCLKOUT>;
+		assigned-clock-rates = <12288000>;
+
+		#sound-dai-cells = <0>;
+	};
+};
