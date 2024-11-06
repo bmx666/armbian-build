@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+&pinctrl {
+	uart {
+		/omit-if-no-ref/
+		uart4_re_de_h: uart4-re-de-h {
+			rockchip,pins = <3 RK_PA1 10 &pcfg_pull_none>;
+		};
+	};
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&uart4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart4m1_xfer &uart4_re_de_h>;
+	status = "okay";
+	//linux,rs485-enabled-at-boot-time;
+};
+
+&uart5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart5m1_xfer>;
+	status = "okay";
+};
+
+&uart8 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart8m0_xfer &uart8m0_ctsn &uart8m0_rtsn>;
+	uart-has-rtscts;
+	status = "okay";
+};
