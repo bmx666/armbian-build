@@ -1,0 +1,97 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+/ {
+	sound0 {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "NAU88C22 1";
+		simple-audio-card,bitclock-master = <&sound0_masterdai>;
+		simple-audio-card,frame-master = <&sound0_masterdai>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,widgets =
+			"Headphones", "Headphones",
+			"Speaker", "Speaker",
+			"Microphone", "Internal Microphone",
+			"Microphone", "Headset Microphone";
+		simple-audio-card,routing =
+			"Headphones", "LHP",
+			"Headphones", "RHP",
+			"Speaker", "LSPK",
+			"Speaker", "RSPK",
+			"LMICP", "Headset Microphone",
+			"RMICP", "Internal Microphone";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s1_8ch>;
+		};
+
+		sound0_masterdai: simple-audio-card,codec {
+			sound-dai = <&nau8822_1>;
+		};
+	};
+
+	sound1 {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "NAU88C22 2";
+		simple-audio-card,bitclock-master = <&sound1_masterdai>;
+		simple-audio-card,frame-master = <&sound1_masterdai>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,widgets =
+			"Headphones", "Headphones",
+			"Speaker", "Speaker",
+			"Microphone", "Internal Microphone",
+			"Microphone", "Headset Microphone";
+		simple-audio-card,routing =
+			"Headphones", "LHP",
+			"Headphones", "RHP",
+			"Speaker", "LSPK",
+			"Speaker", "RSPK",
+			"LMICP", "Headset Microphone",
+			"RMICP", "Internal Microphone";
+
+		simple-audio-card,cpu {
+			sound-dai = <&i2s3_2ch>;
+		};
+
+		sound1_masterdai: simple-audio-card,codec {
+			sound-dai = <&nau8822_2>;
+		};
+	};
+};
+
+&i2c3 {
+	nau8822_2: nau8822-2@1a {
+		compatible = "nuvoton,nau8822";
+		reg = <0x1a>;
+
+		clocks = <&cru I2S3_MCLKOUT_TX>;
+		clock-names = "mclk";
+		assigned-clocks = <&cru I2S3_MCLKOUT_TX>;
+		assigned-clock-parents = <&cru CLK_I2S3_2CH_TX>;
+		assigned-clock-rates = <12288000>;
+
+		#sound-dai-cells = <0>;
+	};
+};
+
+&i2c5 {
+	nau8822_1: nau8822-1@1a {
+		compatible = "nuvoton,nau8822";
+		reg = <0x1a>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&i2s1m0_mclk>;
+		clocks = <&cru I2S1_MCLKOUT_TX>;
+		clock-names = "mclk";
+		assigned-clocks = <&cru I2S1_MCLKOUT_TX>;
+		assigned-clock-parents = <&cru CLK_I2S1_8CH_TX>;
+		assigned-clock-rates = <12288000>;
+
+		#sound-dai-cells = <0>;
+	};
+};
