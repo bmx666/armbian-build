@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+&pwm0 {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
+};
