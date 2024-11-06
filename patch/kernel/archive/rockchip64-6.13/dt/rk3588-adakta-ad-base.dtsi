@@ -1,0 +1,335 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2024 Adakta, Ltd.
+ *
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/soc/rockchip,vop2.h>
+#include <dt-bindings/usb/pd.h>
+#include "rk3588.dtsi"
+
+#include "rk3588-adakta-ad-base-can.dtsi"
+#include "rk3588-adakta-ad-base-display.dtsi"
+#include "rk3588-adakta-ad-base-ethernet.dtsi"
+#include "rk3588-adakta-ad-base-gpio.dtsi"
+#include "rk3588-adakta-ad-base-i2c.dtsi"
+#include "rk3588-adakta-ad-base-i2s.dtsi"
+#include "rk3588-adakta-ad-base-mmc.dtsi"
+#include "rk3588-adakta-ad-base-sound.dtsi"
+#include "rk3588-adakta-ad-base-spi.dtsi"
+#include "rk3588-adakta-ad-base-pcie.dtsi"
+#include "rk3588-adakta-ad-base-pmu.dtsi"
+#include "rk3588-adakta-ad-base-pwm.dtsi"
+#include "rk3588-adakta-ad-base-uart.dtsi"
+#include "rk3588-adakta-ad-base-usb.dtsi"
+
+/ {
+	chosen {
+		stdout-path = "serial2:1500000n8";
+	};
+
+	adc-keys-0 {
+		compatible = "adc-keys";
+		io-channels = <&saradc 0>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1800000>;
+		poll-interval = <100>;
+
+		button-maskrom {
+			label = "Mask Rom";
+			linux,code = <KEY_SETUP>;
+			press-threshold-microvolt = <393>;
+		};
+	};
+
+	adc-keys-1 {
+		compatible = "adc-keys";
+		io-channels = <&saradc 1>;
+		io-channel-names = "buttons";
+		keyup-threshold-microvolt = <1800000>;
+		poll-interval = <100>;
+
+		button-volume-up {
+			label = "V+/REC";
+			linux,code = <KEY_VOLUMEUP>;
+			press-threshold-microvolt = <17821>;
+		};
+
+		button-volume-down {
+			label = "V-";
+			linux,code = <KEY_VOLUMEDOWN>;
+			press-threshold-microvolt = <415384>;
+		};
+
+		button-menu {
+			label = "MENU";
+			linux,code = <KEY_MENU>;
+			press-threshold-microvolt = <890909>;
+		};
+
+		button-esc {
+			label = "ESC";
+			linux,code = <KEY_ESC>;
+			press-threshold-microvolt = <1233962>;
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_sata_en &aw9523_led_pins>;
+
+		aw9523_led_1: led1 {
+			label = "led1";
+			gpios = <&aw9523 14 GPIO_ACTIVE_LOW>;
+		};
+
+		aw9523_led_2: led2 {
+			label = "led2";
+			gpios = <&aw9523 15 GPIO_ACTIVE_LOW>;
+		};
+
+		led_sata: sata {
+			label = "amber:sata";
+			gpios = <&gpio4 RK_PA3 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+	};
+
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		#cooling-cells = <2>;
+		cooling-levels = <72 94 117 139 162 184 207 229 255>;
+		pwms = <&pwm2 0 10000 0>;
+	};
+};
+
+&pinctrl {
+	aw9523 {
+		aw9523_int: aw9523-int-pin {
+			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_up>;
+		};
+	};
+
+	sata {
+		led_sata_en: led-sata-en {
+			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+	};
+};
+
+&combphy0_ps {
+	status = "okay";
+};
+
+&combphy1_ps {
+	status = "okay";
+};
+
+&combphy2_psu {
+	status = "disabled";
+};
+
+&i2c2 {
+	aw9523: gpio-expander@5b {
+		compatible = "awinic,aw9523-pinctrl";
+		reg = <0x5b>;
+		gpio-controller;
+		#gpio-cells = <2>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&aw9523_int>;
+
+		interrupts-extended = <&gpio1 RK_PA4 IRQ_TYPE_EDGE_FALLING>;
+
+		status = "okay";
+
+		/* GPIO_P00 */
+		/omit-if-no-ref/
+		aw9523_cam0_reset_pins: aw9523-cam0-reset-pins {
+			pins = "gpio0";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P01 */
+		/omit-if-no-ref/
+		aw9523_cam0_powerdown_pins: aw9523-cam0-powerdown-pins {
+			pins = "gpio1";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P02 */
+		/omit-if-no-ref/
+		aw9523_cam1_reset_pins: aw9523-cam1-reset-pins {
+			pins = "gpio2";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P03 */
+		/omit-if-no-ref/
+		aw9523_cam1_powerdown_pins: aw9523-cam1-powerdown-pins {
+			pins = "gpio3";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P04 */
+		/omit-if-no-ref/
+		aw9523_cam2_reset_pins: aw9523-cam2-reset-pins {
+			pins = "gpio4";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P05 */
+		/omit-if-no-ref/
+		aw9523_cam2_powerdown_pins: aw9523-cam2-powerdown-pins {
+			pins = "gpio5";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P06 */
+		/omit-if-no-ref/
+		aw9523_cam3_reset_pins: aw9523-cam3-reset-pins {
+			pins = "gpio6";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P07 */
+		/omit-if-no-ref/
+		aw9523_cam3_powerdown_pins: aw9523-cam3-powerdown-pins {
+			pins = "gpio7";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P10 */
+		/omit-if-no-ref/
+		aw9523_cam4_reset_pins: aw9523-cam4-reset-pins {
+			pins = "gpio8";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P11 */
+		/omit-if-no-ref/
+		aw9523_cam4_powerdown_pins: aw9523-cam4-powerdown-pins {
+			pins = "gpio9";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P12 */
+		/omit-if-no-ref/
+		aw9523_cam5_reset_pins: aw9523-cam5-reset-pins {
+			pins = "gpio10";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P13 */
+		/omit-if-no-ref/
+		aw9523_cam5_powerdown_pins: aw9523-cam5-powerdown-pins {
+			pins = "gpio11";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P14 */
+		/omit-if-no-ref/
+		aw9523_uart_rs485_re_de_pins: aw9523-uart-rs485-re-de-pins {
+			pins = "gpio12";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P15 - N/C */
+		/omit-if-no-ref/
+		aw9523_bt_host_wake_pins: aw9523-bt-host-wake-pins {
+			pins = "gpio13";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+
+		/* GPIO_P16 - N/C */
+		/omit-if-no-ref/
+		aw9523_wifi_disable_pins: aw9523-wifi-disable-pins {
+			pins = "gpio14";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P17 - N/C */
+		/omit-if-no-ref/
+		aw9523_bt_disable_pins: aw9523-bt-disable-pins {
+			pins = "gpio15";
+			function = "gpio";
+			input-disable;
+			output-high;
+		};
+
+		/* GPIO_P16 / GPIO_P17 */
+		/omit-if-no-ref/
+		aw9523_led_pins: aw9523-led-pins {
+			pins = "gpio14", "gpio15";
+			function = "gpio";
+			input-disable;
+			output-low;
+		};
+	};
+};
+
+&i2c5 {
+	pcf8563: pcf8563@51 {
+		compatible = "nxp,pcf8563";
+		reg = <0x51>;
+		status = "okay";
+	};
+};
+
+&saradc {
+	status = "okay";
+	vref-supply = <&avcc_1v8_s0>;
+};
+
+&sata1 {
+	status = "okay";
+};
+
+&tsadc {
+	status = "okay";
+};
+
+&uart9 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9m2_xfer &aw9523_uart_rs485_re_de_pins>;
+	status = "okay";
+};
