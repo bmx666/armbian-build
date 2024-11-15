@@ -1,0 +1,117 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+
+/ {
+	metadata {
+		title = "Enable Raspberry Pi Camera V2 0";
+		compatible = "adakta,adakta-smarc-rk3568";
+		category = "camera";
+		description = "Enable Raspberry Pi Camera V2 0";
+	};
+
+	fragment@0 {
+		target = <&i2c4>;
+
+		__overlay__ {
+			status = "okay";
+
+			cam0_imx219: cam0_imx219@10 {
+				status = "okay";
+
+				compatible = "sony,imx219";
+				reg = <0x10>;
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&cam0_powerdown>;
+
+				pwdn-gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_HIGH>;
+
+				clocks = <&ext_cam_clk>;
+				clock-names = "xvclk";
+
+				rockchip,camera-module-index = <0>;
+				rockchip,camera-module-facing = "back";
+				rockchip,camera-module-name = "rpi-camera-v2";
+				rockchip,camera-module-lens-name = "default";
+
+				port {
+					cam0_imx219_out: endpoint {
+						status = "okay";
+						remote-endpoint = <&mipi_in_dphy1>;
+						data-lanes = <1 2>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <456000000>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&mipi_in_dphy1>;
+
+		__overlay__ {
+			remote-endpoint = <&cam0_imx219_out>;
+			data-lanes = <1 2>;
+		};
+	};
+
+	fragment@2 {
+		target = <&rkcif>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&rkcif_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&csi2_dphy_hw>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <&csi2_dphy1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@6 {
+		target = <&rkisp>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@7 {
+		target = <&rkisp_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@8 {
+		target = <&rkisp_vir0>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
