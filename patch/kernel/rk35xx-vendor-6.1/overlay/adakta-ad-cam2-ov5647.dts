@@ -1,0 +1,143 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/rk3588-cru.h>
+#include <dt-bindings/power/rk3588-power.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+
+/ {
+	metadata {
+		title = "Enable OV5647 MIPI-CSI Camera 2";
+		compatible = "adakta,adakta-ad-rk3588";
+		category = "camera";
+		description = "Enable OV5647 MIPI-CSI Camera 2";
+	};
+
+	fragment@0 {
+		target = <&i2c5>;
+
+		__overlay__ {
+			status = "okay";
+
+			cam2_ov5647: cam2_ov5647@36 {
+				status = "okay";
+
+				compatible = "ovti,ov5647";
+				reg = <0x36>;
+
+				power-domains = <&power RK3588_PD_VI>;
+				rockchip,grf = <&sys_grf>;
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&mipim0_camera3_clk &aw9523_cam2_powerdown_pins>;
+
+				pwdn-gpios = <&aw9523 5 GPIO_ACTIVE_LOW>;
+
+				clocks = <&cru CLK_MIPI_CAMARAOUT_M3>;
+				clock-names = "xvclk";
+
+				rockchip,camera-module-index = <2>;
+				rockchip,camera-module-facing = "back";
+				rockchip,camera-module-name = "KLT-OV5647";
+				rockchip,camera-module-lens-name = "default";
+
+				port {
+					cam2_ov5647_out: endpoint {
+						remote-endpoint = <&mipi_in_dphy1>;
+						data-lanes = <1 2>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&mipi_in_dphy1>;
+
+		__overlay__ {
+			remote-endpoint = <&cam2_ov5647_out>;
+			data-lanes = <1 2>;
+		};
+	};
+
+	fragment@2 {
+		target = <&rkcif>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&rkcif_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&csi2_dphy0_hw>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <&csi2_dphy1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@6 {
+		target = <&mipi2_csi2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@7 {
+		target = <&rkcif_mipi_lvds2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@8 {
+		target = <&rkcif_mipi_lvds2_sditf>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@9 {
+		target = <&rkisp0>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@10 {
+		target = <&isp0_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@11 {
+		target = <&rkisp0_vir1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
