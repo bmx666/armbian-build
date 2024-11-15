@@ -1,0 +1,116 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/rk3588-cru.h>
+#include <dt-bindings/power/rk3588-power.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+
+/ {
+	metadata {
+		title = "Enable OV5640 MIPI-CSI Camera 0";
+		compatible = "adakta,adakta-ad-rk3588";
+		category = "camera";
+		description = "Enable OV5640 MIPI-CSI Camera 0";
+	};
+
+	fragment@0 {
+		target = <&i2c3>;
+
+		__overlay__ {
+			status = "okay";
+
+			cam0_ov5640: cam0_ov5640@3c {
+				status = "okay";
+
+				compatible = "ovti,ov5640";
+				reg = <0x3c>;
+
+				power-domains = <&power RK3588_PD_VI>;
+				rockchip,grf = <&sys_grf>;
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&mipim0_camera1_clk &aw9523_cam0_powerdown_pins &aw9523_cam0_reset_pins>;
+
+				reset-gpios = <&aw9523 0 GPIO_ACTIVE_HIGH>;
+				powerdown-gpios = <&aw9523 1 GPIO_ACTIVE_LOW>;
+
+				clocks = <&cru CLK_MIPI_CAMARAOUT_M1>;
+				clock-names = "xclk";
+
+				AVDD-supply = <&camera_vdda_2v8>;
+				DOVDD-supply = <&camera_vdddo_1v8>;
+				DVDD-supply = <&camera_vddd_1v5>;
+
+				rockchip,camera-module-index = <0>;
+				rockchip,camera-module-facing = "back";
+				rockchip,camera-module-name = "KLT-KD6-OV5640";
+				rockchip,camera-module-lens-name = "default";
+
+				port {
+					cam0_ov5640_out: endpoint {
+						remote-endpoint = <&mipi_in_dphy4>;
+						data-lanes = <1 2>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&mipi_in_dphy4>;
+
+		__overlay__ {
+			remote-endpoint = <&cam0_ov5640_out>;
+			data-lanes = <1 2>;
+		};
+	};
+
+	fragment@2 {
+		target = <&rkcif>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&rkcif_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&csi2_dphy1_hw>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <&csi2_dphy4>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@6 {
+		target = <&mipi4_csi2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@7 {
+		target = <&rkcif_mipi_lvds4>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
