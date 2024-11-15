@@ -1,0 +1,144 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/rk3588-cru.h>
+#include <dt-bindings/power/rk3588-power.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+
+/ {
+	metadata {
+		title = "Enable Raspberry Pi Camera V2 5";
+		compatible = "adakta,adakta-ad-rk3588";
+		category = "camera";
+		description = "Enable Raspberry Pi Camera V2 5";
+	};
+
+	fragment@0 {
+		target = <&i2c4>;
+
+		__overlay__ {
+			status = "okay";
+
+			cam5_imx219: cam5_imx219@3c {
+				status = "okay";
+
+				compatible = "sony,imx219";
+				reg = <0x10>;
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&aw9523_cam5_reset_pins>;
+
+				reset-gpios = <&aw9523 11 GPIO_ACTIVE_HIGH>;
+
+				clocks = <&ext_cam_clk>;
+				clock-names = "xvclk";
+
+				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
+				VDIG-supply = <&camera_vdddo_1v8>; /* 1.8v */
+				VDDL-supply = <&camera_vddd_1v2>;  /* 1.2v */
+
+				rockchip,camera-module-index = <5>;
+				rockchip,camera-module-facing = "back";
+				rockchip,camera-module-name = "rpi-camera-v2";
+				rockchip,camera-module-lens-name = "default";
+
+				port {
+					cam5_imx219_out: endpoint {
+						remote-endpoint = <&mipi_in_dcphy1>;
+						data-lanes = <1 2>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&mipi_in_dcphy1>;
+
+		__overlay__ {
+			remote-endpoint = <&cam5_imx219_out>;
+			data-lanes = <1 2>;
+		};
+	};
+
+	fragment@2 {
+		target = <&rkcif>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&rkcif_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&mipi_dcphy1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <&csi2_dcphy1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@6 {
+		target = <&mipi1_csi2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@7 {
+		target = <&rkcif_mipi_lvds1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@8 {
+		target = <&rkcif_mipi_lvds1_sditf>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@9 {
+		target = <&rkisp1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@10 {
+		target = <&isp1_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@11 {
+		target = <&rkisp1_vir0>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
