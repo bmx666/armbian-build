@@ -1,0 +1,147 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/rk3588-cru.h>
+#include <dt-bindings/power/rk3588-power.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+
+/ {
+	metadata {
+		title = "Enable Raspberry Pi Camera V2 1";
+		compatible = "adakta,adakta-ad-rk3588";
+		category = "camera";
+		description = "Enable Raspberry Pi Camera V2 1";
+	};
+
+	fragment@0 {
+		target = <&i2c4>;
+
+		__overlay__ {
+			status = "okay";
+
+			cam1_imx219: cam1_imx219@10 {
+				status = "okay";
+
+				compatible = "sony,imx219";
+				reg = <0x10>;
+
+				power-domains = <&power RK3588_PD_VI>;
+				rockchip,grf = <&sys_grf>;
+
+				pinctrl-names = "default";
+				pinctrl-0 = <&mipim0_camera2_clk &aw9523_cam1_reset_pins>;
+
+				reset-gpios = <&aw9523 2 GPIO_ACTIVE_HIGH>;
+
+				clocks = <&cru CLK_MIPI_CAMARAOUT_M2>;
+				clock-names = "xvclk";
+
+				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
+				VDIG-supply = <&camera_vdddo_1v8>; /* 1.8v */
+				VDDL-supply = <&camera_vddd_1v2>;  /* 1.2v */
+
+				rockchip,camera-module-index = <1>;
+				rockchip,camera-module-facing = "back";
+				rockchip,camera-module-name = "rpi-camera-v2";
+				rockchip,camera-module-lens-name = "default";
+
+				port {
+					cam1_imx219_out: endpoint {
+						remote-endpoint = <&mipi_in_dphy5>;
+						data-lanes = <1 2>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&mipi_in_dphy5>;
+
+		__overlay__ {
+			remote-endpoint = <&cam1_imx219_out>;
+			data-lanes = <1 2>;
+		};
+	};
+
+	fragment@2 {
+		target = <&rkcif>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&rkcif_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&csi2_dphy1_hw>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@5 {
+		target = <&csi2_dphy5>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@6 {
+		target = <&mipi5_csi2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@7 {
+		target = <&rkcif_mipi_lvds5>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@8 {
+		target = <&rkcif_mipi_lvds5_sditf>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@9 {
+		target = <&rkisp1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@10 {
+		target = <&isp1_mmu>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@11 {
+		target = <&rkisp1_vir2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
