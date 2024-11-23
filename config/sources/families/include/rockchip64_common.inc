@@ -37,6 +37,17 @@ case $BRANCH in
 		declare -g LINUXFAMILY=rockchip64
 		declare -g LINUXCONFIG='linux-rockchip64-'$BRANCH
 		;;
+
+	vendor)
+		BOOTSCRIPT='boot-rk35xx.cmd:boot.cmd'
+		BOOTDIR='u-boot-rockchip64'
+		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
+		declare -g -i KERNEL_GIT_CACHE_TTL=120 # 2 minutes; this is a high-traffic repo
+		KERNELSOURCE='https://github.com/armbian/linux-rockchip.git'
+		KERNELBRANCH='branch:rk-6.1-rkr4.1'
+		KERNELPATCHDIR='rk35xx-vendor-6.1'
+		LINUXFAMILY=rk35xx
+		;;
 esac
 
 # rockchip64 (used mainly for RK3399) legacy kernel 4.4 is dead code
