@@ -29,7 +29,8 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&cam1_powerdown>;
 
-				pwdn-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_HIGH>;
+				// powerdown in driver
+				reset-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
 
 				clocks = <&ext_cam_clk>;
 				clock-names = "xvclk";

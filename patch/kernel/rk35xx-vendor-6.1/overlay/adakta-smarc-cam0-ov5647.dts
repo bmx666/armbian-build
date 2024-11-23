@@ -1,6 +1,8 @@
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/clock/rk3568-cru.h>
+#include <dt-bindings/power/rk3568-power.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 
@@ -25,11 +27,14 @@
 				reg = <0x36>;
 
 				pinctrl-names = "default";
-				pinctrl-0 = <&cam0_powerdown>;
+				pinctrl-0 = <&cif_clk>, <&cam0_powerdown>;
 
 				pwdn-gpios = <&gpio3 RK_PD5 GPIO_ACTIVE_LOW>;
 
-				clocks = <&ext_cam_clk>;
+				power-domains = <&power RK3568_PD_VI>;
+				rockchip,grf = <&grf>;
+
+				clocks = <&cru CLK_CIF_OUT>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <0>;
