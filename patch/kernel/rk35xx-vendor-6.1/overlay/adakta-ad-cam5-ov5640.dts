@@ -29,8 +29,8 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&aw9523_cam5_powerdown_pins &aw9523_cam5_reset_pins>;
 
-				reset-gpios = <&aw9523 11 GPIO_ACTIVE_HIGH>;
-				powerdown-gpios = <&aw9523 10 GPIO_ACTIVE_LOW>;
+				reset-gpios = <&aw9523 10 GPIO_ACTIVE_LOW>;
+				powerdown-gpios = <&aw9523 11 GPIO_ACTIVE_HIGH>;
 
 				clocks = <&ext_cam_clk>;
 				clock-names = "xclk";
