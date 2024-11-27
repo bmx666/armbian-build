@@ -21,6 +21,13 @@
 		#clock-cells = <0>;
 	};
 
+	fake_imx219_clk: fake-imx219-clock {
+		compatible = "fixed-clock";
+		clock-frequency = <24000000>;
+		clock-output-names = "CLK_CAMERA_24MHZ";
+		#clock-cells = <0>;
+	};
+
 	camera_vdddo_1v8: camera-vdddo-1v8 {
 		compatible = "regulator-fixed";
 		regulator-name = "camera_vdddo_1v8";
