@@ -32,8 +32,8 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&mipim0_camera2_clk &aw9523_cam1_powerdown_pins &aw9523_cam1_reset_pins>;
 
-				reset-gpios = <&aw9523 2 GPIO_ACTIVE_HIGH>;
-				powerdown-gpios = <&aw9523 3 GPIO_ACTIVE_LOW>;
+				reset-gpios = <&aw9523 2 GPIO_ACTIVE_LOW>;
+				powerdown-gpios = <&aw9523 3 GPIO_ACTIVE_HIGH>;
 
 				clocks = <&cru CLK_MIPI_CAMARAOUT_M2>;
 				clock-names = "xclk";
