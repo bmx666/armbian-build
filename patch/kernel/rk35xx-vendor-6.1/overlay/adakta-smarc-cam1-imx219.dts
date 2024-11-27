@@ -29,10 +29,9 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&cam1_powerdown>;
 
-				// powerdown in driver
-				reset-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
+				reset-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&ext_cam_clk>;
+				clocks = <&fake_imx219_clk>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <1>;
