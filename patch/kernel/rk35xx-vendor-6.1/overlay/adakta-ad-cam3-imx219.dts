@@ -1,7 +1,6 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/rk3588-cru.h>
 #include <dt-bindings/power/rk3588-power.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/rockchip.h>
@@ -30,11 +29,11 @@
 				rockchip,grf = <&sys_grf>;
 
 				pinctrl-names = "default";
-				pinctrl-0 = <&mipim0_camera4_clk &aw9523_cam3_reset_pins>;
+				pinctrl-0 = <&aw9523_cam3_reset_pins>;
 
-				reset-gpios = <&aw9523 7 GPIO_ACTIVE_HIGH>;
+				reset-gpios = <&aw9523 6 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&cru CLK_MIPI_CAMARAOUT_M4>;
+				clocks = <&fake_imx219_clk>;
 				clock-names = "xvclk";
 
 				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
@@ -48,8 +47,11 @@
 
 				port {
 					cam3_imx219_out: endpoint {
+						status = "okay";
 						remote-endpoint = <&mipi_in_dphy2>;
 						data-lanes = <1 2>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <456000000>;
 					};
 				};
 			};
