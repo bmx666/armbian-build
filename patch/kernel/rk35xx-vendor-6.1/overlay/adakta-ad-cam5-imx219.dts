@@ -1,7 +1,6 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/rk3588-cru.h>
 #include <dt-bindings/power/rk3588-power.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/rockchip.h>
@@ -20,18 +19,21 @@
 		__overlay__ {
 			status = "okay";
 
-			cam5_imx219: cam5_imx219@3c {
+			cam5_imx219: cam5_imx219@10 {
 				status = "okay";
 
 				compatible = "sony,imx219";
 				reg = <0x10>;
 
+				power-domains = <&power RK3588_PD_VI>;
+				rockchip,grf = <&sys_grf>;
+
 				pinctrl-names = "default";
 				pinctrl-0 = <&aw9523_cam5_reset_pins>;
 
-				reset-gpios = <&aw9523 11 GPIO_ACTIVE_HIGH>;
+				reset-gpios = <&aw9523 10 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&ext_cam_clk>;
+				clocks = <&fake_imx219_clk>;
 				clock-names = "xvclk";
 
 				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
@@ -45,8 +47,11 @@
 
 				port {
 					cam5_imx219_out: endpoint {
+						status = "okay";
 						remote-endpoint = <&mipi_in_dcphy1>;
 						data-lanes = <1 2>;
+						clock-noncontinuous;
+						link-frequencies = /bits/ 64 <456000000>;
 					};
 				};
 			};
