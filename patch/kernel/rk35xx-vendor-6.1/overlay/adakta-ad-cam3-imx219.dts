@@ -33,7 +33,7 @@
 
 				reset-gpios = <&aw9523 6 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&fake_imx219_clk>;
+				clocks = <&clk_cam_24m>;
 				clock-names = "xvclk";
 
 				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
