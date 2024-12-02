@@ -31,7 +31,7 @@
 
 				pwdn-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_LOW>;
 
-				clocks = <&ext_cam_clk>;
+				clocks = <&clk_cam_25m>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <1>;
