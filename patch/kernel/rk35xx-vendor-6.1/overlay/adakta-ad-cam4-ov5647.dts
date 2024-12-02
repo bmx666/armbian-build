@@ -27,11 +27,11 @@
 				reg = <0x36>;
 
 				pinctrl-names = "default";
-				pinctrl-0 = <&aw9523_cam4_powerdown_pins>;
+				pinctrl-0 = <&aw9523_cam4_reset_pins>;
 
-				pwdn-gpios = <&aw9523 9 GPIO_ACTIVE_LOW>;
+				pwdn-gpios = <&aw9523 8 GPIO_ACTIVE_LOW>;
 
-				clocks = <&ext_cam_clk>;
+				clocks = <&clk_cam_25m>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <4>;
