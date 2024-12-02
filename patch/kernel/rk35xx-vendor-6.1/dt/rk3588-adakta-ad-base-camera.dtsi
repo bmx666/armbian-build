@@ -23,17 +23,19 @@
  */
 
 / {
-	ext_cam_clk: external-camera-clock {
+	clk_cam_24m: external-camera-clock-24m {
+		status = "okay";
 		compatible = "fixed-clock";
-		clock-frequency = <25000000>;
-		clock-output-names = "CLK_CAMERA_25MHZ";
+		clock-frequency = <24000000>;
+		clock-output-names = "clk_cam_24m";
 		#clock-cells = <0>;
 	};
 
-	fake_imx219_clk: fake-imx219-clock {
+	clk_cam_25m: external-camera-clock-25m {
+		status = "okay";
 		compatible = "fixed-clock";
-		clock-frequency = <24000000>;
-		clock-output-names = "CLK_CAMERA_24MHZ";
+		clock-frequency = <25000000>;
+		clock-output-names = "clk_cam_25m";
 		#clock-cells = <0>;
 	};
 
