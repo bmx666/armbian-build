@@ -34,7 +34,7 @@
 				power-domains = <&power RK3568_PD_VI>;
 				rockchip,grf = <&grf>;
 
-				clocks = <&cru CLK_CIF_OUT>;
+				clocks = <&clk_cam_25m>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <0>;
