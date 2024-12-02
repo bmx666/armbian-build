@@ -31,7 +31,7 @@
 
 				reset-gpios = <&gpio3 RK_PD3 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&fake_imx219_clk>;
+				clocks = <&clk_cam_24m>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <1>;
