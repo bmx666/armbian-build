@@ -32,7 +32,7 @@
 				reset-gpios = <&aw9523 8 GPIO_ACTIVE_LOW>;
 				powerdown-gpios = <&aw9523 9 GPIO_ACTIVE_HIGH>;
 
-				clocks = <&ext_cam_clk>;
+				clocks = <&clk_cam_25m>;
 				clock-names = "xclk";
 
 				AVDD-supply = <&camera_vdda_2v8>;
