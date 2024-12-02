@@ -30,11 +30,11 @@
 				rockchip,grf = <&sys_grf>;
 
 				pinctrl-names = "default";
-				pinctrl-0 = <&mipim0_camera2_clk &aw9523_cam1_powerdown_pins>;
+				pinctrl-0 = <&aw9523_cam1_reset_pins>;
 
-				pwdn-gpios = <&aw9523 3 GPIO_ACTIVE_LOW>;
+				pwdn-gpios = <&aw9523 2 GPIO_ACTIVE_LOW>;
 
-				clocks = <&cru CLK_MIPI_CAMARAOUT_M2>;
+				clocks = <&clk_cam_25m>;
 				clock-names = "xvclk";
 
 				rockchip,camera-module-index = <1>;
