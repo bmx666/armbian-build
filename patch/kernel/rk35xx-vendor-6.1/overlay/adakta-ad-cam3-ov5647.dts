@@ -1,8 +1,6 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/rk3588-cru.h>
-#include <dt-bindings/power/rk3588-power.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 
@@ -25,9 +23,6 @@
 
 				compatible = "ovti,ov5647";
 				reg = <0x36>;
-
-				power-domains = <&power RK3588_PD_VI>;
-				rockchip,grf = <&sys_grf>;
 
 				pinctrl-names = "default";
 				pinctrl-0 = <&aw9523_cam3_reset_pins>;
