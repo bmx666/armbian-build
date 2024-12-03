@@ -62,14 +62,6 @@
 		regulator-max-microvolt = <1500000>;
 		regulator-always-on;
 	};
-
-	camera_vddd_1v2: camera-vddd-1v2 {
-		compatible = "regulator-fixed";
-		regulator-name = "camera_vddd_1v2";
-		regulator-min-microvolt = <1200000>;
-		regulator-max-microvolt = <1200000>;
-		regulator-always-on;
-	};
 };
 
 /* must be enabled for any csi2 */
