@@ -1,7 +1,6 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/power/rk3588-power.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/rockchip.h>
 
@@ -25,9 +24,6 @@
 				compatible = "sony,imx219";
 				reg = <0x10>;
 
-				power-domains = <&power RK3588_PD_VI>;
-				rockchip,grf = <&sys_grf>;
-
 				pinctrl-names = "default";
 				pinctrl-0 = <&aw9523_cam1_reset_pins>;
 
@@ -35,10 +31,6 @@
 
 				clocks = <&clk_cam_24m>;
 				clock-names = "xvclk";
-
-				VANA-supply = <&camera_vdda_2v8>;  /* 2.8v */
-				VDIG-supply = <&camera_vdddo_1v8>; /* 1.8v */
-				VDDL-supply = <&camera_vddd_1v2>;  /* 1.2v */
 
 				rockchip,camera-module-index = <1>;
 				rockchip,camera-module-facing = "back";
