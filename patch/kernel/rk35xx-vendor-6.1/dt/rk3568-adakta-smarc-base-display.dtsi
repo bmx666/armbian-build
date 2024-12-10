@@ -48,6 +48,14 @@
 	};
 };
 
+&dsi0 {
+	status = "disabled";
+};
+
+&dsi1 {
+	status = "disabled";
+};
+
 &edp {
 	pinctrl-names = "default";
 	pinctrl-0 = <&edp_hpd>;
@@ -66,19 +74,66 @@
 	};
 };
 
-&edp_in_vp0 {
-	status = "disabled";
-};
-
-&edp_in_vp1 {
-	status = "disabled";
-};
-
 &edp_phy {
+	status = "disabled";
+};
+
+&hdmi {
+	status = "disabled";
+	rockchip,phy-table =
+		<92812500  0x8009 0x0000 0x0270>,
+		<165000000 0x800b 0x0000 0x026d>,
+		<185625000 0x800b 0x0000 0x01ed>,
+		<297000000 0x800b 0x0000 0x01ad>,
+		<594000000 0x8029 0x0000 0x0088>,
+		<000000000 0x0000 0x0000 0x0000>;
+};
+
+&route_dsi0 {
+	status = "disabled";
+};
+
+&route_dsi1 {
 	status = "disabled";
 };
 
 &route_edp {
 	status = "disabled";
-	connect = <&vp0_out_edp>;
+};
+
+&route_hdmi {
+	status = "disabled";
+};
+
+&video_phy0 {
+	status = "disabled";
+};
+
+&video_phy1 {
+	status = "disabled";
+};
+
+&vop {
+	status = "okay";
+	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
+	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
+};
+
+&vop_mmu {
+	status = "okay";
+};
+
+&vp0 {
+	rockchip,plane-mask = <(1 << ROCKCHIP_VOP2_CLUSTER0 | 1 << ROCKCHIP_VOP2_ESMART0)>;
+	rockchip,primary-plane = <ROCKCHIP_VOP2_ESMART0>;
+};
+
+&vp1 {
+	rockchip,plane-mask = <(1 << ROCKCHIP_VOP2_CLUSTER1 | 1 << ROCKCHIP_VOP2_ESMART1)>;
+	rockchip,primary-plane = <ROCKCHIP_VOP2_ESMART1>;
+};
+
+&vp2 {
+	rockchip,plane-mask = <(1 << ROCKCHIP_VOP2_CLUSTER2 | 1 << ROCKCHIP_VOP2_ESMART2)>;
+	rockchip,primary-plane = <ROCKCHIP_VOP2_ESMART2>;
 };
