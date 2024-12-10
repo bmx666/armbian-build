@@ -1,0 +1,36 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	metadata {
+		title = "Enable HDMI via VP1";
+		compatible = "adakta,adakta-smarc-rk3568";
+		category = "display";
+		description = "Enable HDMI via VP1";
+	};
+
+	fragment@0 {
+		target = <&hdmi>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&hdmi_in_vp1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target = <&route_hdmi>;
+
+		__overlay__ {
+			status = "okay";
+			connect = <&vp1_out_hdmi>;
+		};
+	};
+};
