@@ -1,0 +1,44 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	metadata {
+		title = "Enable eDP via VP1";
+		compatible = "adakta,adakta-smarc-rk3568";
+		category = "display";
+		description = "Enable eDP via VP1";
+	};
+
+	fragment@0 {
+		target = <&edp>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&edp_phy>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target = <&edp_in_vp1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@3 {
+		target = <&route_edp>;
+
+		__overlay__ {
+			status = "okay";
+			connect = <&vp1_out_edp>;
+		};
+	};
+};
