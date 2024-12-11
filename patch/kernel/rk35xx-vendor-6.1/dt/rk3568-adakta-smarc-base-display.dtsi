@@ -4,6 +4,8 @@
  *
  */
 
+#include <dt-bindings/display/media-bus-format.h>
+
 / {
 	panel-edp {
 		compatible = "simple-panel";
