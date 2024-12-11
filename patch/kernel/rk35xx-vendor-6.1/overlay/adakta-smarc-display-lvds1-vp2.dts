@@ -1,0 +1,52 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	metadata {
+		title = "Enable LVDS1 via VP2";
+		compatible = "adakta,adakta-smarc-rk3568";
+		category = "display";
+		description = "Enable LVDS1 via VP2";
+	};
+
+	fragment@0 {
+		target = <&lvds1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@1 {
+		target = <&lvds1_in_vp2>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@2 {
+		target = <&route_lvds>;
+
+		__overlay__ {
+			status = "okay";
+			connect = <&vp2_out_lvds>;
+		};
+	};
+
+	fragment@3 {
+		target = <&lvds1_backlight>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
+	fragment@4 {
+		target = <&video_phy1>;
+
+		__overlay__ {
+			status = "okay";
+		};
+	};
+};
