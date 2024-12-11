@@ -19,6 +19,7 @@
 #include "rk3568-adakta-smarc-base-display.dtsi"
 #include "rk3568-adakta-smarc-base-ethernet.dtsi"
 #include "rk3568-adakta-smarc-base-i2c.dtsi"
+#include "rk3568-adakta-smarc-base-pwm.dtsi"
 #include "rk3568-adakta-smarc-base-uart.dtsi"
 
 // disable, redirect to ttyFIQ0
