@@ -32,8 +32,8 @@ index f3fc426ec76f..1b4251fd76bb 100644
 +	adakta-smarc-display-hdmi-vp1.dtbo \
 +	adakta-smarc-display-lvds0-vp1.dtbo \
 +	adakta-smarc-display-lvds0-vp2.dtbo \
-+	adakta-smarc-display-lvds1-vp1.dtbo \
-+	adakta-smarc-display-lvds1-vp2.dtbo
++	adakta-smarc-display-dsi1-vp0.dtbo \
++	adakta-smarc-display-dsi1-vp1.dtbo
 +
  # SPDX-License-Identifier: GPL-2.0
  dtbo-$(CONFIG_ARCH_ROCKCHIP) += \
