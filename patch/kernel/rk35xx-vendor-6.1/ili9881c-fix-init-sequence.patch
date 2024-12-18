@@ -1,0 +1,35 @@
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+index cbb68caa36f2..6043f975f5ab 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+@@ -283,8 +297,8 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x10, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x11, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x12, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x13, 0x00),
+-	ILI9881C_COMMAND_INSTR(0x14, 0x00),
++	ILI9881C_COMMAND_INSTR(0x13, 0x1F),
++	ILI9881C_COMMAND_INSTR(0x14, 0x1F),
+ 	ILI9881C_COMMAND_INSTR(0x15, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x16, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+@@ -393,7 +407,7 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_COMMAND_INSTR(0x89, 0x0E),
+ 	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
+ 	ILI9881C_SWITCH_PAGE_INSTR(4),
+-	ILI9881C_COMMAND_INSTR(0x3B, 0xC0), /* ILI4003D sel */
++	ILI9881C_COMMAND_INSTR(0x00, 0x00),
+ 	ILI9881C_COMMAND_INSTR(0x6C, 0x15), /* Set VCORE voltage = 1.5V */
+ 	ILI9881C_COMMAND_INSTR(0x6E, 0x2A), /* di_pwr_reg=0 for power mode 2A, VGH clamp 18V */
+ 	ILI9881C_COMMAND_INSTR(0x6F, 0x33), /* pumping ratio VGH=5x VGL=-3x */
+@@ -405,9 +419,8 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
+ 	ILI9881C_SWITCH_PAGE_INSTR(1),
+ 	ILI9881C_COMMAND_INSTR(0x22, 0x0A), /* BGR, SS */
+ 	ILI9881C_COMMAND_INSTR(0x31, 0x00), /* Zigzag type3 inversion */
+-	ILI9881C_COMMAND_INSTR(0x40, 0x53), /* ILI4003D sel */
+ 	ILI9881C_COMMAND_INSTR(0x43, 0x66),
+-	ILI9881C_COMMAND_INSTR(0x53, 0x4C),
++	ILI9881C_COMMAND_INSTR(0x53, 0x42),
+ 	ILI9881C_COMMAND_INSTR(0x50, 0x87),
+ 	ILI9881C_COMMAND_INSTR(0x51, 0x82),
+ 	ILI9881C_COMMAND_INSTR(0x60, 0x15),

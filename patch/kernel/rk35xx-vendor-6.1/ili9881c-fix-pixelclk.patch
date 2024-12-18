@@ -1,0 +1,13 @@
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+index cbb68caa36f2..6043f975f5ab 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+@@ -797,7 +844,7 @@ static const struct drm_display_mode lhr050h41_default_mode = {
+ };
+ 
+ static const struct drm_display_mode k101_im2byl02_default_mode = {
+-	.clock		= 69700,
++	.clock		= 58000,
+ 
+ 	.hdisplay	= 800,
+ 	.hsync_start	= 800 + 52,
