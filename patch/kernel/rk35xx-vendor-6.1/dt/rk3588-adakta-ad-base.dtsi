@@ -138,11 +138,20 @@
 		compatible = "gpio-keys";
 	};
 
-	fan0: pwm-fan {
+	fan: pwm-fan {
 		compatible = "pwm-fan";
 		#cooling-cells = <2>;
-		cooling-levels = <72 94 117 139 162 184 207 229 255>;
-		pwms = <&pwm2 0 10000 0>;
+		pwms = <&pwm2 0 50000 0>;
+		cooling-levels = <0 50 100 150 200 255>;
+		rockchip,temp-trips = <
+			50000   1
+			55000   2
+			60000   3
+			65000   4
+			70000   5
+		>;
+
+		status = "okay";
 	};
 };
 
@@ -644,95 +653,6 @@
 
 &sfc {
 	status = "disabled";
-};
-
-&soc_thermal {
-	polling-delay = <1000>;
-	polling-delay-passive = <2000>;
-	trips {
-		trip0: trip-point@0 {
-			temperature = <45000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip1: trip-point@1 {
-			temperature = <50000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip2: trip-point@2 {
-			temperature = <55000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip3: trip-point@3 {
-			temperature = <60000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip4: trip-point@4 {
-			temperature = <65000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip5: trip-point@5 {
-			temperature = <70000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		trip6: trip-point@6 {
-			temperature = <75000>;
-			hysteresis = <5000>;
-			type = "active";
-		};
-		pcritical: trip-point@7 {
-			temperature = <80000>;
-			hysteresis = <1000>;
-			type = "active";
-		};
-	};
-	cooling-maps {
-		map0 {
-			trip = <&trip0>;
-			cooling-device = <&fan0 0 1>;
-			contribution = <1024>;
-		};
-		map1 {
-			trip = <&trip1>;
-			cooling-device = <&fan0 1 2>;
-			contribution = <1024>;
-		};
-		map2 {
-			trip = <&trip2>;
-			cooling-device = <&fan0 2 3>;
-			contribution = <1024>;
-		};
-		map3 {
-			trip = <&trip3>;
-			cooling-device = <&fan0 3 4>;
-			contribution = <1024>;
-		};
-		map4 {
-			trip = <&trip4>;
-			cooling-device = <&fan0 4 5>;
-			contribution = <1024>;
-		};
-		map5 {
-			trip = <&trip5>;
-			cooling-device = <&fan0 5 6>;
-			contribution = <1024>;
-		};
-		map6 {
-			trip = <&trip6>;
-			cooling-device = <&fan0 6 7>;
-			contribution = <1024>;
-		};
-		map7 {
-			trip = <&pcritical>;
-			cooling-device = <&fan0 7 8>;
-			contribution = <1024>;
-		};
-	};
 };
 
 &tsadc {
