@@ -45,7 +45,7 @@
 				port {
 					cam5_ov5640_out: endpoint {
 						remote-endpoint = <&mipi_in_dcphy1>;
-						data-lanes = <1 2 3 4>;
+						data-lanes = <1 2>;
 					};
 				};
 			};
@@ -57,7 +57,7 @@
 
 		__overlay__ {
 			remote-endpoint = <&cam5_ov5640_out>;
-			data-lanes = <1 2 3 4>;
+			data-lanes = <1 2>;
 		};
 	};
 
