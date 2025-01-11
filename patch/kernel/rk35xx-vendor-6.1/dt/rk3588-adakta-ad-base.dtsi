@@ -116,17 +116,7 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&aw9523_led_pins &led_sata_en>;
-
-		aw9523_led_1: led1 {
-			label = "led1";
-			gpios = <&aw9523 14 GPIO_ACTIVE_LOW>;
-		};
-
-		aw9523_led_2: led2 {
-			label = "led2";
-			gpios = <&aw9523 15 GPIO_ACTIVE_LOW>;
-		};
+		pinctrl-0 = <&led_sata_en>;
 
 		led_sata: sata {
 			label = "amber:sata";
@@ -153,6 +143,31 @@
 
 		status = "okay";
 	};
+
+	wireless_bluetooth: wireless-bluetooth {
+		compatible = "bluetooth-platdata";
+		clocks = <&pcf8563>;
+		clock-names = "ext_clock";
+		uart_rts_gpios = <&gpio1 RK_PA2 GPIO_ACTIVE_LOW>;
+		pinctrl-names = "default", "rts_gpio";
+		pinctrl-0 = <&uart6m1_rtsn>, <&aw9523_bt_disable_pins>, <&aw9523_bt_host_wake_pins>, <&bt_wake_en>, <&bt_host_wake_irq>;
+		pinctrl-1 = <&bt_uart_rts_gpio>;
+		BT,reset_gpio    = <&aw9523 15 GPIO_ACTIVE_HIGH>;
+		// BT,reset_gpio    = <&gpio1 RK_PA6 GPIO_ACTIVE_HIGH>;
+		BT,wake_gpio     = <&aw9523 13 GPIO_ACTIVE_HIGH>;
+		BT,wake_host_irq = <&gpio1 RK_PB1 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+
+	wireless_wlan: wireless-wlan {
+		compatible = "wlan-platdata";
+		wifi_chip_type = "ap6275p";
+		pinctrl-names = "default";
+		pinctrl-0 = <&wifi_host_wake_irq>, <&aw9523_wifi_disable_pins>;
+		WIFI,host_wake_irq = <&gpio1 RK_PA7 GPIO_ACTIVE_HIGH>;
+		WIFI,poweren_gpio = <&aw9523 14 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
 };
 
 &pinctrl {
@@ -165,6 +180,30 @@
 	sata {
 		led_sata_en: led-sata-en {
 			rockchip,pins = <4 RK_PA3 RK_FUNC_GPIO &pcfg_output_high>;
+		};
+	};
+
+	wireless-bluetooth {
+		/omit-if-no-ref/
+		bt_uart_rts_gpio: bt-uart-rts-gpio {
+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		/omit-if-no-ref/
+		bt_wake_en: bt-wake-en {
+			rockchip,pins = <1 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+
+		/omit-if-no-ref/
+		bt_host_wake_irq: bt-host-wake-irq {
+			rockchip,pins = <1 RK_PB1 RK_FUNC_GPIO &pcfg_pull_none>;
+		};
+	};
+
+	wireless-wlan {
+		/omit-if-no-ref/
+		wifi_host_wake_irq: wifi-host-wake-irq {
+			rockchip,pins = <1 RK_PA7 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
 	};
 };
@@ -406,7 +445,7 @@
 			output-high;
 		};
 
-		/* GPIO_P15 - N/C */
+		/* GPIO_P15 */
 		/omit-if-no-ref/
 		aw9523_bt_host_wake_pins: aw9523-bt-host-wake-pins {
 			pins = "gpio13";
@@ -415,7 +454,7 @@
 			output-low;
 		};
 
-		/* GPIO_P16 - N/C */
+		/* GPIO_P16 */
 		/omit-if-no-ref/
 		aw9523_wifi_disable_pins: aw9523-wifi-disable-pins {
 			pins = "gpio14";
@@ -424,7 +463,7 @@
 			output-high;
 		};
 
-		/* GPIO_P17 - N/C */
+		/* GPIO_P17 */
 		/omit-if-no-ref/
 		aw9523_bt_disable_pins: aw9523-bt-disable-pins {
 			pins = "gpio15";
@@ -448,6 +487,9 @@
 	pcf8563: pcf8563@51 {
 		compatible = "nxp,pcf8563";
 		reg = <0x51>;
+		#clock-cells = <0>;
+		clock-frequency = <32768>;
+		clock-output-names = "pcf8563";
 		status = "okay";
 	};
 };
@@ -736,6 +778,16 @@
 		regulator-on-in-suspend;
 		regulator-suspend-microvolt = <850000>;
 	};
+};
+
+&pcie2x1l0 {
+	rockchip,default-link-up;
+};
+
+&uart6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart6m1_xfer &uart6m1_ctsn>;
+	status = "okay";
 };
 
 &uart9 {
