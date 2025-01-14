@@ -180,24 +180,15 @@
 		compatible = "bluetooth-platdata";
 		clocks = <&pcf8563>;
 		clock-names = "ext_clock";
-		uart_rts_gpios = <&gpio1 RK_PA2 GPIO_ACTIVE_LOW>;
-		pinctrl-names = "default", "rts_gpio";
-		pinctrl-0 = <&uart6m1_rtsn>, <&aw9523_bt_disable_pins>, <&aw9523_bt_host_wake_pins>, <&bt_wake_en>, <&bt_host_wake_irq>;
-		pinctrl-1 = <&bt_uart_rts_gpio>;
-		BT,reset_gpio    = <&aw9523 15 GPIO_ACTIVE_HIGH>;
-		// BT,reset_gpio    = <&gpio1 RK_PA6 GPIO_ACTIVE_HIGH>;
-		BT,wake_gpio     = <&aw9523 13 GPIO_ACTIVE_HIGH>;
-		BT,wake_host_irq = <&gpio1 RK_PB1 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 
 	wireless_wlan: wireless-wlan {
 		compatible = "wlan-platdata";
-		wifi_chip_type = "ap6275p";
+		wifi_chip_type = "rtl8852be";
 		pinctrl-names = "default";
-		pinctrl-0 = <&wifi_host_wake_irq>, <&aw9523_wifi_disable_pins>;
+		pinctrl-0 = <&wifi_host_wake_irq>;
 		WIFI,host_wake_irq = <&gpio1 RK_PA7 GPIO_ACTIVE_HIGH>;
-		WIFI,poweren_gpio = <&aw9523 14 GPIO_ACTIVE_HIGH>;
 		status = "okay";
 	};
 };
@@ -810,10 +801,6 @@
 		regulator-on-in-suspend;
 		regulator-suspend-microvolt = <850000>;
 	};
-};
-
-&pcie2x1l0 {
-	rockchip,default-link-up;
 };
 
 &uart6 {
