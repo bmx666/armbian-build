@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+/dts-v1/;
+#include "rk3568-adakta-smarc-base.dtsi"
+
+/ {
+	model = "Adakta SMARC Board rev2";
+	compatible = "adakta,adakta-smarc-rk3568", "adakta,adakta-smarc-rk3568-r2", "rockchip,rk3568";
+};
+
+&pmu_io_domains {
+	vccio5-supply = <&vcc_1v8>;
+};
