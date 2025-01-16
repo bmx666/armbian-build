@@ -9,6 +9,6 @@
 #include "rk3568-adakta-smarc-base.dtsi"
 
 / {
-	model = "Adakta SMARC Board";
-	compatible = "adakta,adakta-smarc-rk3568", "rockchip,rk3568";
+	model = "Adakta SMARC Board rev1";
+	compatible = "adakta,adakta-smarc-rk3568", "adakta,adakta-smarc-rk3568-r1", "rockchip,rk3568";
 };
