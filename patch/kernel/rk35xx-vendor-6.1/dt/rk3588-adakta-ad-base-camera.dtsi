@@ -74,16 +74,6 @@
 	status = "disabled";
 };
 
-/* must be enabled for "csi2_dphy0", "csi2_dphy1", "csi2_dphy2" */
-&csi2_dphy0_hw {
-	status = "disabled";
-};
-
-/* must be enabled for "csi2_dphy3", "csi2_dphy4", "csi2_dphy5" */
-&csi2_dphy1_hw {
-	status = "disabled";
-};
-
 /* must be disabled if camera has own ISP */
 &isp0_mmu {
 	status = "disabled";
@@ -91,16 +81,6 @@
 
 /* must be disabled if camera has own ISP */
 &isp1_mmu {
-	status = "disabled";
-};
-
-/* must be enabled for "csi2_dcphy0" */
-&mipi_dcphy0 {
-	status = "disabled";
-};
-
-/* must be enabled for "csi2_dcphy1" */
-&mipi_dcphy1 {
 	status = "disabled";
 };
 
@@ -169,8 +149,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dcphy0: endpoint@1 {
-				reg = <1>;
+			mipi_in_dcphy0: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
@@ -268,8 +248,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dcphy1: endpoint@1 {
-				reg = <1>;
+			mipi_in_dcphy1: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
@@ -367,8 +347,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dphy1: endpoint@1 {
-				reg = <1>;
+			mipi_in_dphy1: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
@@ -466,8 +446,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dphy2: endpoint@1 {
-				reg = <1>;
+			mipi_in_dphy2: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
@@ -565,8 +545,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dphy4: endpoint@1 {
-				reg = <1>;
+			mipi_in_dphy4: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
@@ -664,8 +644,8 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 
-			mipi_in_dphy5: endpoint@1 {
-				reg = <1>;
+			mipi_in_dphy5: endpoint@0 {
+				reg = <0>;
 			};
 		};
 		port@1 {
