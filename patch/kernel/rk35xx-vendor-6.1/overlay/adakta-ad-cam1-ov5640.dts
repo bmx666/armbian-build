@@ -79,14 +79,6 @@
 	};
 
 	fragment@4 {
-		target = <&csi2_dphy1_hw>;
-
-		__overlay__ {
-			status = "okay";
-		};
-	};
-
-	fragment@5 {
 		target = <&csi2_dphy5>;
 
 		__overlay__ {
@@ -94,7 +86,7 @@
 		};
 	};
 
-	fragment@6 {
+	fragment@5 {
 		target = <&mipi5_csi2>;
 
 		__overlay__ {
@@ -102,7 +94,7 @@
 		};
 	};
 
-	fragment@7 {
+	fragment@6 {
 		target = <&rkcif_mipi_lvds5>;
 
 		__overlay__ {

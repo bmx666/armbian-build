@@ -76,14 +76,6 @@
 	};
 
 	fragment@4 {
-		target = <&mipi_dcphy0>;
-
-		__overlay__ {
-			status = "okay";
-		};
-	};
-
-	fragment@5 {
 		target = <&csi2_dcphy0>;
 
 		__overlay__ {
@@ -91,7 +83,7 @@
 		};
 	};
 
-	fragment@6 {
+	fragment@5 {
 		target = <&mipi0_csi2>;
 
 		__overlay__ {
@@ -99,7 +91,7 @@
 		};
 	};
 
-	fragment@7 {
+	fragment@6 {
 		target = <&rkcif_mipi_lvds>;
 
 		__overlay__ {
@@ -107,7 +99,7 @@
 		};
 	};
 
-	fragment@8 {
+	fragment@7 {
 		target = <&rkcif_mipi_lvds_sditf>;
 
 		__overlay__ {
@@ -115,7 +107,7 @@
 		};
 	};
 
-	fragment@9 {
+	fragment@8 {
 		target = <&rkisp0>;
 
 		__overlay__ {
@@ -123,7 +115,7 @@
 		};
 	};
 
-	fragment@10 {
+	fragment@9 {
 		target = <&isp0_mmu>;
 
 		__overlay__ {
@@ -131,7 +123,7 @@
 		};
 	};
 
-	fragment@11 {
+	fragment@10 {
 		target = <&rkisp0_vir0>;
 
 		__overlay__ {
