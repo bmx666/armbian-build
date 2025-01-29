@@ -27,7 +27,7 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&aw9523_cam0_reset_pins>;
 
-				reset-gpios = <&aw9523 0 GPIO_ACTIVE_HIGH>;
+				power-gpios = <&aw9523 0 GPIO_ACTIVE_HIGH>;
 
 				clocks = <&clk_cam_24m>;
 				clock-names = "xvclk";
